@@ -1,4 +1,3 @@
-require('dotenv').config()
 const sock = io();
 var messageBody = document.getElementById('events');
 
@@ -129,7 +128,7 @@ sock.on('winMessage', (text, p1, p2) => {
             document.querySelector('.next-round-listener').classList.add('underline');
             document.querySelector('.next-round-listener').addEventListener('click', nextRound);
             sock.emit('nextRoundInitiated')
-        }, parseInt(process.env.WAIT_TIME,10));
+        }, 3000);
 });
 
 sock.on('gameStarts', () => {
@@ -149,14 +148,14 @@ sock.on('winByDefault', () => {
     writeEvent("Ganaste la ronda porque tu oponente no respondió a tiempo.");
     setTimeout( () => {
         nextRound()
-    },parseInt(process.env.LOSE_TIMEOUT,10));
+    },2000);
 });
 
 sock.on('loseByDefault', () => {
     writeEvent("Perdiste la ronda por no responder a tiempo.");
     setTimeout ( () => {
         nextRound()
-    }, parseInt(process.env.LOSE_TIMEOUT,10));
+    }, 2000);
 });
 
 // document.querySelector('#chat-FORM').ADDeVENTlISTENER('SUBMIT', ONcHATsUBMITTED);

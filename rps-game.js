@@ -33,7 +33,6 @@ class RpsGame {
         // Event listener. When a player clicks on turn, do turn
         this._players.forEach((player, idx) => {
             player.on('turn', (turn) => {
-                console.log("Juego empezao")
                 this._onTurn(idx, turn);
             });
         });
@@ -57,7 +56,6 @@ class RpsGame {
     _onTurn(playerIndex, turn) {
         this._turns[playerIndex] = turn;
 
-        console.log("Empezao")
         // Si es la primera elección, inicia el temporizador
         if (this._turns[0] !== null && this._turns[1] === null || this._turns[0] === null && this._turns[1] !== null) {
             this._startChoiceTimer(playerIndex);
@@ -99,7 +97,7 @@ class RpsGame {
             case 0:
                 // draw
                 this._players.forEach((player) => {
-                    player.emit('winMessage', 'Draw', this._turns[0], this._turns[1]);
+                    player.emit('winMessage', 'Empate', this._turns[0], this._turns[1]);
                 });
                 break;
 
@@ -119,8 +117,8 @@ class RpsGame {
 
     _postWin(winner, loser, p1, p2) {
         // Send Message to winner and loser.
-        winner.emit('winMessage', 'You won!', p1, p2);
-        loser.emit('winMessage', 'You lost.', p1, p2);
+        winner.emit('winMessage', 'Ganaste!', p1, p2);
+        loser.emit('winMessage', 'Perdiste :(', p1, p2);
 
         // Check streaks
         winner.onStreak++;
