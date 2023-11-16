@@ -1,4 +1,5 @@
 // Get required modules
+require('dotenv').config();
 const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
@@ -85,6 +86,6 @@ io.on('connection', (sock) => {
 });
 
 // Start server and log errors to console
-server.listen(process.env.PORT || 3000, function(){
+server.listen(parseInt(process.env.PORT) || 3000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
