@@ -57,14 +57,8 @@ io.on('connection', (sock) => {
 
     sock.on('disconnect', () => {
         connectedClients--;
-        console.log(`Cliente desconectado, número de clientes: ${connectedClients}`);
-
-        console.log(`Cliente desconectado, número de clientes: ${connectedClients}`);
-
-        // Emitir un evento de refresco a todos los clientes conectados
-        io.emit('refreshClients');
-    });
-
+        console.log(`Cliente desconectado, numero de clientes: ${connectedClients}`)
+    })
     // Set element values
    sock.on('setEl', (el, text) => {
        io.emit('setEl', el, text);

@@ -134,17 +134,12 @@ sock.on('winMessage', (text, p1, p2) => {
 sock.on('gameStarts', () => {
     document.querySelector('.game-wrapper').classList.remove('player-loading');
     writeEvent("Elige tu jugada");
-});
+})
 
 sock.on('disconnect', () => {
     alert('Has sido desconectado, el numero de clientes maximo ha sido alcanzado, espera y vuelve a intentarlo mas tarde');
-    window.location.reload()
-});
-
-sock.on('refreshClients', () => {
-    alert('Su contrincante se ha desconectado, regresando al inicio')
-    window.location.reload();
-});
+    window.close()
+})
 
 sock.on('winByDefault', () => {
     writeEvent("Ganaste la ronda porque tu oponente no respondió a tiempo.");
