@@ -47,7 +47,7 @@ const startCountdown = () => {
             clearInterval(intervalId);
             writeEvent("Tiempo!")
         } else {
-            writeEvent('Espera para comenzar')
+            writeEvent(`El juego comenzara en ${countdown} segundos`)
         }
     }, 1000);
 }
@@ -141,6 +141,9 @@ sock.on('disconnect', () => {
     window.close()
 })
 
+sock.on('refreshClients', () => {
+    window.location.reload()
+})
 sock.on('winByDefault', () => {
     writeEvent("Ganaste la ronda porque tu oponente no respondió a tiempo.");
     setTimeout( () => {

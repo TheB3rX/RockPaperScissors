@@ -58,6 +58,7 @@ io.on('connection', (sock) => {
     sock.on('disconnect', () => {
         connectedClients--;
         console.log(`Cliente desconectado, numero de clientes: ${connectedClients}`)
+        io.emit('refreshClients')
     })
     // Set element values
    sock.on('setEl', (el, text) => {
