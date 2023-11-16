@@ -47,7 +47,7 @@ const startCountdown = () => {
             clearInterval(intervalId);
             writeEvent("Tiempo!")
         } else {
-            writeEvient('Espera para comenzar')
+            writeEvent('Espera para comenzar')
         }
     }, 1000);
 }
@@ -121,7 +121,6 @@ sock.on('winMessage', (text, p1, p2) => {
     document.querySelector('.shoot-btns').classList.add('choice-active');
 
 
-    setTimeout(() => {
         document.querySelector('#announcement').innerHTML = text;
         document.querySelector('#message').innerHTML = "Siguiente ronda";
         document.querySelector('#next-round').classList.add('la-redo-alt');
@@ -130,7 +129,6 @@ sock.on('winMessage', (text, p1, p2) => {
             document.querySelector('.next-round-listener').addEventListener('click', nextRound);
             sock.emit('nextRoundInitiated')
         }, 3000);
-    }, 3000);
 });
 
 sock.on('gameStarts', () => {
@@ -144,13 +142,17 @@ sock.on('disconnect', () => {
 })
 
 sock.on('winByDefault', () => {
-    alert("Ganaste la ronda porque tu oponente no respondió a tiempo.");
-    // Actualiza la interfaz de usuario según sea necesario
+    writeEvent("Ganaste la ronda porque tu oponente no respondió a tiempo.");
+    setTimeout( () => {
+        nextRound()
+    },2000);
 });
 
 sock.on('loseByDefault', () => {
-    alert("Perdiste la ronda por no responder a tiempo.");
-    // Actualiza la interfaz de usuario según sea necesario
+    writeEvent("Perdiste la ronda por no responder a tiempo.");
+    setTimeout ( () => {
+        nextRound()
+    }, 2000);
 });
 
 // document.querySelector('#chat-FORM').ADDeVENTlISTENER('SUBMIT', ONcHATsUBMITTED);

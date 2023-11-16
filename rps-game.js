@@ -10,7 +10,7 @@ class RpsGame {
         // streak is the "high score streak", while onStreak is what they're currently at
         p1.streak = 0;
         p1.onStreak = 0;
-        
+
         p2.streak = 0;
         p2.onStreak = 0;
 
@@ -33,37 +33,12 @@ class RpsGame {
         // Event listener. When a player clicks on turn, do turn
         this._players.forEach((player, idx) => {
             player.on('turn', (turn) => {
+                console.log("Juego empezao")
                 this._onTurn(idx, turn);
             });
-            this._startTurnTimer(idx)
         });
-    }
 
-    _onTurn(playerIndex, turn) {
-        this.turns[playerIndex] = turn;
-        if (this.turns[0] && this.turns[1]) {
-            this._checkGameOver();
-        }
-    }
-
-    _startTurnTimer(playerIndex) {
-        setTimeout(() => {
-            if (this.turns[playerIndex] === null) {
-                this._handleNoChoice(playerIndex);
-            }
-        }, 5000);
-    }
-
-    _handleNoChoice(playerIndex) {
-        const otherPlayerIndex = playerIndex === 0 ? 1 : 0;
-        this.players[otherPlayerIndex].emit('winByDefault');
-        this.players[playerIndex].emit('loseByDefault');
-        this.turns = [null, null];
-    }
-
-    _checkGameOver() {
-        // Aquí implementas la lógica para determinar el ganador de la ronda
-        // y notificar a los jugadores
+        this.choiceTimer = null
     }
 
     // Send message to single player
@@ -71,9 +46,6 @@ class RpsGame {
         this._players[playerIndex].emit('message', msg);
     }
 
-    _handleNoChoice(playerIndex) {
-        this._players[playerIndex].emit('timeOut');
-    }
     // Send message to players
     _sendToPlayers(msg) {
         this._players.forEach((player) => {
@@ -85,12 +57,29 @@ class RpsGame {
     _onTurn(playerIndex, turn) {
         this._turns[playerIndex] = turn;
 
-        // Game over. Both players turns are selected
-        if (this._turns[0] && this._turns[1]) {
-            this._checkGameOver();
-        } else {
-            this._sendToPlayer(playerIndex, `Waiting for opponent`);
+        console.log("Empezao")
+        // Si es la primera elección, inicia el temporizador
+        if (this._turns[0] !== null && this._turns[1] === null || this._turns[0] === null && this._turns[1] !== null) {
+            this._startChoiceTimer(playerIndex);
         }
+
+        // Si ambos jugadores han elegido, cancela el temporizador y comprueba el resultado
+        if (this._turns[0] !== null && this._turns[1] !== null) {
+            clearTimeout(this.choiceTimer);
+            this._checkGameOver();
+        }
+    }
+
+    _startChoiceTimer(playerIndex) {
+        this.choiceTimer = setTimeout(() => {
+            const otherPlayerIndex = (playerIndex === 0) ? 1 : 0;
+            if (this._turns[otherPlayerIndex] === null) {
+                this._players[playerIndex].emit('winByDefault');
+                this._players[otherPlayerIndex].emit('loseByDefault');
+                this._addPoint(this._players[playerIndex], playerIndex);
+                this._turns = [null, null];
+            }
+        }, 3000);
     }
 
     // Checks if game is over
@@ -100,7 +89,7 @@ class RpsGame {
     }
 
     _getGameResult(){
-        // Gets rock, paper, or scissors 
+        // Gets rock, paper, or scissors
         const p0 = this._decodeTurn(this._turns[0]);
         const p1 = this._decodeTurn(this._turns[1]);
 
@@ -114,17 +103,17 @@ class RpsGame {
                 });
                 break;
 
-                case 1:
-                    // p0 won
-                    this._postWin(this._players[0], this._players[1], this._turns[0], this._turns[1]);
-                    this._addPoint(this._players[0] ,0);
-                    break;
-    
-                case 2:
-                    // p1 won
-                    this._postWin(this._players[1], this._players[0], this._turns[0], this._turns[1]);
-                    this._addPoint(this._players[1] ,1);
-                    break;
+            case 1:
+                // p0 won
+                this._postWin(this._players[0], this._players[1], this._turns[0], this._turns[1]);
+                this._addPoint(this._players[0] ,0);
+                break;
+
+            case 2:
+                // p1 won
+                this._postWin(this._players[1], this._players[0], this._turns[0], this._turns[1]);
+                this._addPoint(this._players[1] ,1);
+                break;
         }
     }
 
@@ -136,7 +125,7 @@ class RpsGame {
         // Check streaks
         winner.onStreak++;
         // this._sendToPlayers(winner.onStreak);
-        
+
         // // If the winner is currently on a win streak.
         if (winner.onStreak > winner.streak) {
             winner.streak++;
