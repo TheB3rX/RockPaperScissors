@@ -1,0 +1,206 @@
+* {
+    transition: all .2s ease;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.shadow {
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, .25);
+}
+
+.d-none {
+    display: none !important;
+}
+
+.container {
+    padding-top: 40px;
+}
+
+button {
+    display: block;
+    border-radius: 50px;
+}
+
+/* Ready Form */
+#announcement {
+    height: 60px;
+    margin: 0;
+}
+
+#message {
+    height: 30px;
+}
+
+.ready-wrapper {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all .5s;
+    transition-delay: .3s;
+}
+
+#ready-form {
+    margin-top: 80px;
+    padding: 20px 40px;
+    width: 300px;
+}
+
+#ready-btn, #player-name {
+    width: 100%;
+}
+
+#ready-btn {
+    background-color: #457B9D;
+    color: white;
+    border: unset;
+    position: relative;
+    bottom: 0px;
+}
+
+#ready-btn:hover {
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, .25);
+    bottom: 2px;
+}
+
+.player-ready {
+    opacity: 0;
+}
+
+/* Event */
+
+#event {
+    text-align: center;
+}
+
+/* Game Wrapper */
+
+.player-loading {
+     opacity: 0 !important;
+}
+
+.rps-btns {
+    position: relative;
+}
+
+#next-round {
+    font-size: 1.4rem;
+    padding-left: 8px;
+    color: #457B9D;
+}
+
+.underline {
+    color: #457B9D;
+}
+
+.underline:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.player-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    z-index: 100;
+    opacity: 1;
+}
+
+.shoot-btns {
+    display: flex;
+    position: absolute;
+    justify-content: space-around;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.shoot-btns i {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition-delay: 1s;
+}
+
+#p1-choice {
+    position: relative;
+    left: -50vw;
+    transition: all 1s;
+}
+
+#p2-choice {
+    position: relative;
+    right: -50vw;
+    transition: all 1s;
+    /* left: 0vw; */
+}
+
+.choice-active {
+    z-index: 1;
+}
+
+.choice-active > #p1-choice {
+    left: 0vw;
+}
+
+.choice-active > #p2-choice {
+    right: 0vw;
+}
+
+.shoot-btns.choice-active i {
+    opacity: 1;
+}
+
+.player-btns > button, #p1-choice, #p2-choice{
+    padding: 0;
+    border-radius: 500px;
+    border: unset;
+    box-shadow: 10px 15px 20px rgba(0, 0, 0, .25);
+    width: 140px;
+    height: 140px;
+    text-align: center;
+    position: relative;
+    bottom: 0px;
+}
+
+.player-btns > button:hover {
+    bottom: 4px;
+    box-shadow: 10px 19px 28px rgba(0, 0, 0, .25);
+}
+
+i {
+    font-size: 110px;
+    color: #2a2a2a;
+}
+
+.active {
+    /* background-color: #E63946; */
+    border: 1px solid #E63946 !important;
+}
+
+.active i {
+    /* color: #fff; */
+    color: #E63946;
+}
+
+/* Score Wrapper */
+.score-wrapper {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.name {
+    font-size: 2rem;
+}
+
+.score {
+    font-size: 4rem;
+    font-weight: 600;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Piedra, Papel, Tijeras</title>
+    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="skeleton.css" />
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="ready-wrapper container">
+      <h1>Piedra Papel o Tijeras</h1>
+      <p>Ya sabes como funciona, Piedra vence tijeras, Tijeras vencen Piedra, Papel vence Piedra.</p>
+
+      <!-- Input player name -->
+      <form id="ready-form" class="shadow">
+        <input type="text" id="player-name" placeholder="Enter Name" />
+        <button id="ready-btn">Listo!!</button>
+      </form>
+    </div>
+
+    <div class="container">
+      <div id="event">
+        <h2 id="announcement"></h2>
+        <p class="next-round-listener"><span id="message"></span><i id="next-round" class="las"></i></p>
+      </div>
+
+      <div class="game-wrapper player-loading">
+        <div class="rps-btns">
+          <div class="player-btns">
+            <button id="rock"><i class="las la-hand-rock"></i></button>
+            <button id="paper"><i class="las la-hand-paper"></i></button>
+            <button id="scissors"><i class="las la-hand-scissors"></i></button>
+          </div>
+
+          <div class="shoot-btns">
+            <div id="p1-choice"><i class="las"></i></div>
+            <div id="p2-choice"><i class="las"></i></div>
+          </div>
+        </div>
+
+        <div class="score-wrapper">
+          <div id="player0" class="player">
+            <p class="name"></p>
+            <p class="score">0</p>
+            <p class="streak">Racha: <span class="streak-score">0</span></p>
+          </div>
+          <div id="player1" class="player">
+            <p class="name"></p>
+            <p class="score">0</p>
+            <p class="streak">Racha: <span class="streak-score">0</span></p>
+          </div>
+        </div>
+
+        <!-- <form id="chat-form">
+                <input type="text" id="chat">
+                <button id="say">SAY</button>
+            </form> -->
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+  </body>
+</html>
