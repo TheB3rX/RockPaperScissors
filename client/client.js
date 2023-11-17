@@ -1,28 +1,52 @@
+// Establish a connection to the server using Socket.io
 const sock = io();
 var messageBody = document.getElementById('events');
 
-// Function to append messages to the chat
+/**
+ * Write a text message to the element with ID 'message'.
+ * @param {string} text - The text message to be displayed.
+ */
 const writeEvent = (text) => {
     const el = document.querySelector('#message');
     el.innerHTML = text;
 }
 
+/**
+ * Set the inner HTML of a specified element.
+ * @param {string} el - The CSS selector of the element.
+ * @param {string} text - The text to be set as inner HTML.
+ */
 const setElement = (el, text) => {
     document.querySelector(el).innerHTML = text;
 }
 
+/**
+ * Update the score for a specified player.
+ * @param {number} score - The new score to display.
+ * @param {number} idx - The index of the player (used in the element ID).
+ */
 const addPoint = (score, idx) => {
     
     const el = document.querySelector('#player' + idx + ' > .score');
     el.innerHTML = score;
 }
 
+/**
+ * Update the streak score for a specified player.
+ * @param {number} player - The player number.
+ * @param {number} score - The streak score to display.
+ */
 const updateStreak = (player, score) => {
     const el = document.querySelector('#player' + player + ' > .streak > .streak-score');
     el.innerHTML = score;
 }
 
-// When user enters name
+/**
+ * Event handler for 'ready' button submission.
+ * Prevents the default form submission, sends a 'playerReady' event via socket,
+ * and visually updates the interface to show readiness.
+ * @param {Event} e - The event object.
+ */
 const onReadySubmitted = (e) => {
     e.preventDefault();
 
@@ -38,6 +62,9 @@ const onReadySubmitted = (e) => {
     }, 800)
 }
 
+/**
+ * Start a countdown before the game starts and display it using writeEvent.
+ */
 const startCountdown = () => {
     let countdown = 3;
     writeEvent(`El juego comenzara en ${countdown} segundos`)
@@ -52,7 +79,10 @@ const startCountdown = () => {
     }, 1000);
 }
 
-// Run turn function when user clicks on rock, paper or scissors
+/**
+ * Add click event listeners to rock, paper, scissors buttons.
+ * On click, it emits a 'turn' event via socket.
+ */
 const addButtonListeners = () => {
     ['rock', 'paper', 'scissors'].forEach((id) => {
         const button = document.getElementById(id);
@@ -63,6 +93,11 @@ const addButtonListeners = () => {
     });
 }
 
+
+/**
+ * Handles the visual update when a button is clicked and starts the countdown.
+ * @param {Element} btn - The button that was clicked.
+ */
 const clickBtn = (btn) => {
     let rps = ['rock', 'paper', 'scissors'];
 
@@ -78,6 +113,9 @@ const clickBtn = (btn) => {
     }
 }
 
+/**
+ * Prepare for the next round of the game by resetting the UI elements.
+ */
 const nextRound = () => {
     document.querySelector('.next-round-listener').classList.remove('underline');
     document.querySelector('#next-round').classList.remove('la-redo-alt');
@@ -104,13 +142,14 @@ const nextRound = () => {
     writeEvent("Escoge la opción");
 }
 
-// writeEvent('Welcome to Rock, Paper, Scissors!');
+// Socket.io event listeners for various game events
 sock.on('message', writeEvent);
 sock.on('setEl', setElement);
 sock.on('addPoint', addPoint);
 sock.on('updateStreak', updateStreak);
 sock.on('startTimer', startCountdown)
 sock.on('startNextRound', nextRound)
+
 
 sock.on('winMessage', (text, p1, p2) => {
 
@@ -158,7 +197,8 @@ sock.on('loseByDefault', () => {
     }, 2000);
 });
 
-// document.querySelector('#chat-FORM').ADDeVENTlISTENER('SUBMIT', ONcHATsUBMITTED);
+// Add event listener for the 'ready' form submission
 document.querySelector('#ready-form').addEventListener('submit', onReadySubmitted);
 
+// Call function to add button listeners
 addButtonListeners();
