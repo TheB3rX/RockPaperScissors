@@ -74,17 +74,23 @@ class RpsGame {
     _onTurn(playerIndex, turn) {
         this._turns[playerIndex] = turn;
 
-        // Start choice timer if one player has made a choice
-        if (this._turns[0] !== null && this._turns[1] === null || this._turns[0] === null && this._turns[1] !== null) {
+        // Emitir evento para iniciar la cuenta regresiva en ambos clientes
+        // si uno de los jugadores ha hecho una elección y el otro aún no.
+        if ((this._turns[0] !== null && this._turns[1] === null) || (this._turns[0] === null && this._turns[1] !== null)) {
+            this._players.forEach((player) => {
+                player.emit('startCountdownClient');
+            });
             this._startChoiceTimer(playerIndex);
         }
 
-        // Check game over condition if both players have made a choice
+        // Comprobar si ambos jugadores han hecho una elección
         if (this._turns[0] !== null && this._turns[1] !== null) {
+            // Si ambos jugadores han elegido, detener el temporizador y comprobar el resultado del juego
             clearTimeout(this.choiceTimer);
             this._checkGameOver();
         }
     }
+
 
     /**
      * Start a timer for a player to make a choice.

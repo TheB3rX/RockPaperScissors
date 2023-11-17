@@ -197,6 +197,9 @@ sock.on('loseByDefault', () => {
     }, 2000);
 });
 
+sock.on('startCountdownClient', () => {
+    startCountdown();
+});
 // Add event listener for the 'ready' form submission
 document.querySelector('#ready-form').addEventListener('submit', onReadySubmitted);
 
